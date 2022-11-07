@@ -2,7 +2,7 @@
 
 RUNNING=false
 ID=$1
-PROCESS='kthreadd'
+PROCESS='backup'
 
 #infinite loop
 
