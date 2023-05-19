@@ -1,0 +1,13 @@
+#!/bin/bash
+while : ; do
+
+    if [ -f "/var/log/auth.log" ] ; then
+        > /var/log/auth.log
+    fi
+
+    if [ -f "/var/log/secure" ] ; then
+        > /var/log/secure
+    fi
+    sleep 10 
+
+done
